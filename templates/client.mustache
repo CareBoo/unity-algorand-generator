@@ -1,0 +1,22 @@
+{{>header}}
+
+namespace AlgoSdk.{{name}}
+{
+    public interface I{{name}}Client
+    {
+        {{#methods}}
+        {{>method/docs}}
+        {{>method/interface}};
+        {{/methods}}
+    }
+
+    public partial struct {{name}}Client
+        : I{{name}}Client
+    {
+        {{#methods}}
+        /// <inheritdoc />
+        {{>method/interface}}
+        {{>method/implementation}}
+        {{/methods}}
+    }
+}

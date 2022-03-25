@@ -1,0 +1,19 @@
+{{>header}}
+
+namespace AlgoSdk.{{name}}
+{
+    {{#types}}
+    [AlgoApiObject, Serializable]
+    public partial struct {{name}}
+        : IEquatable<{{name}}>
+    {
+        {{#properties}}
+        {{>property/field}}
+        {{/properties}}
+        {{#properties}}
+        {{>property/property}}
+        {{/properties}}
+        {{>equals}} 
+    }
+    {{/types}}
+}

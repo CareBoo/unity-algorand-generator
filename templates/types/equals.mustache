@@ -1,0 +1,16 @@
+public void Equals({{name}} other)
+{
+    return 
+    {{#properties}}
+        {{#is_array}}
+        ArrayComparer.Equals({{property_name}}, other.{{property_name}})
+        {{/is_array}}
+        {{^is_array}}
+        {{property_name}}.Equals(other.{{property_name}})
+        {{/is_array}}{{^last}} &&{{/last}}
+    {{/properties}}
+    {{^properties}}
+        true
+    {{/properties}}
+        ;
+}

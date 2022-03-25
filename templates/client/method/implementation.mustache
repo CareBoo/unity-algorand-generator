@@ -1,0 +1,15 @@
+{
+    {{#has_query_params}}
+    using var queryBuilder = new QueryBuilder(Allocator.Persistent)
+    {{#query_params}}
+        .Add("{{query_name}}", {{param_name}}{{#default}}, {{value}}{{/default}})
+    {{/query_params}}
+        ;
+    {{/has_query_params}}
+    var path = $"{{path}}{{#has_query_params}}{queryBuilder}{{/has_query_params}}";
+    return this
+        .{{action}}(path)
+        {{#body}}.Set{{type}}Body({{value}}){{/body}}
+        .Send()
+        ;
+}
