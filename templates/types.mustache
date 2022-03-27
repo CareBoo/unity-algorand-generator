@@ -8,12 +8,50 @@ namespace AlgoSdk.{{name}}
         : IEquatable<{{name}}>
     {
         {{#properties}}
-        {{>property/field}}
+        [SerializeField, Tooltip(@"{{description}}")]
+        {{type}} {{field-name}};
+        
         {{/properties}}
         {{#properties}}
-        {{>property/property}}
+        /// <summary>
+        {{#doc-prefix-lambda}}
+        /// {{description}}
+        {{/doc-prefix-lambda}}
+
+
+
+
+        /// </summary>
+        [AlgoApiField("{{api-name}}")]
+        public {{type}} {{property-name}}
+        {
+            get => {{field-name}};
+            set => {{field-name}} = value;
+        }
+
         {{/properties}}
-        {{>equals}} 
+        public void Equals({{name}} other)
+        {
+            return 
+            {{#properties}}
+                {{#is_array}}
+                ArrayComparer.Equals({{property-name}}, other.{{property-name}})
+                {{/is_array}}
+                {{^is_array}}
+                {{#is_string}}
+                StringComparer.Equals({{property-name}}, other.{{property-name}})
+                {{/is_string}}
+                {{^is_string}}
+                {{property-name}}.Equals(other.{{property-name}})
+                {{/is_string}}
+                {{/is_array}}{{^last}}&&{{/last}}
+            {{/properties}}
+            {{^properties}}
+                true
+            {{/properties}}
+                ;
+        }
     }
+
     {{/types}}
 }

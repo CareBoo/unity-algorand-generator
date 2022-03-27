@@ -1,1 +1,1 @@
-(ns client)
+(ns algoapi-gen.client)
