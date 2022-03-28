@@ -50,9 +50,12 @@
       "string")))
 
 (defn get-string-type
-  [{:keys [x-go-name x-algorand-format enum]}]
+  [{:keys [enum format x-go-name x-algorand-format]}]
   (cond
     enum (get-enum-type enum)
+    format (case format
+             "byte" "byte[]"
+             "json" "AlgoApiObject")
     x-go-name (case x-go-name
                 "AccountID" "Address"
                 "TxID" "TransactionId")
