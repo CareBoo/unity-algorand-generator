@@ -9,7 +9,7 @@ namespace AlgoSdk.{{name}}
     {
         {{#properties}}
         [SerializeField, Tooltip(@"{{description}}")]
-        {{type}} {{field-name}};
+        {{type}} @{{field-name}};
         
         {{/properties}}
         {{#properties}}
@@ -17,41 +17,68 @@ namespace AlgoSdk.{{name}}
         {{#doc-prefix-lambda}}
         /// {{description}}
         {{/doc-prefix-lambda}}
-
-
-
-
+        
         /// </summary>
         [AlgoApiField("{{api-name}}")]
         public {{type}} {{property-name}}
         {
-            get => {{field-name}};
-            set => {{field-name}} = value;
+            get => this.@{{field-name}};
+            set => this.@{{field-name}} = value;
         }
 
         {{/properties}}
-        public void Equals({{name}} other)
+        public bool Equals({{name}} other)
         {
             return 
             {{#properties}}
-                {{#is_array}}
-                ArrayComparer.Equals({{property-name}}, other.{{property-name}})
-                {{/is_array}}
-                {{^is_array}}
-                {{#is_string}}
-                StringComparer.Equals({{property-name}}, other.{{property-name}})
-                {{/is_string}}
-                {{^is_string}}
-                {{property-name}}.Equals(other.{{property-name}})
-                {{/is_string}}
-                {{/is_array}}{{^last}}&&{{/last}}
-            {{/properties}}
-            {{^properties}}
-                true
+                {{equals}}{{^last}} &&{{/last}}
             {{/properties}}
                 ;
         }
     }
 
     {{/types}}
+    {{#wrapper-types}}
+    /// <summary>
+    {{#doc-prefix-lambda}}
+    /// {{description}}
+    {{/doc-prefix-lambda}}
+    
+    /// </summary>
+    [Serializable, AlgoApiFormatter(typeof(WrappedValueFormatter<{{name}}, {{wrapped-type}}>))]
+    public partial struct {{name}}
+        : IEquatable<{{name}}>
+        , IWrappedValue<{{wrapped-type}}>
+    {
+        [SerializeField]
+        {{wrapped-type}} @value;
+
+        public {{name}}({{wrapped-type}} value)
+        {
+            this.@value = value;
+        }
+
+        public {{wrapped-type}} WrappedValue
+        {
+            get => this.@value;
+            set => this.@value = value;
+        }
+
+        public bool Equals({{name}} other)
+        {
+            return {{equals}};
+        }
+        
+        public static implicit operator {{wrapped-type}}({{name}} wrapper)
+        {
+            return wrapper.WrappedValue;
+        }
+
+        public static implicit operator {{name}}({{wrapped-type}} value)
+        {
+            return new {{name}}(value);
+        }
+    }
+    
+    {{/wrapper-types}}
 }

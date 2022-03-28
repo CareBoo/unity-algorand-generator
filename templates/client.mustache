@@ -1,12 +1,34 @@
 {{>header}}
 
-namespace AlgoSdk.{{name}}
+namespace AlgoSdk
 {
-    public interface I{{name}}Client
+    public interface I{{ name }}Client
     {
         {{#methods}}
-        {{>method/docs}}
-        {{>method/interface}};
+        /// <summary>
+        {{#doc-prefix-lambda}}
+        /// {{description}}
+        {{/doc-prefix-lambda}}
+        /// </summary
+        {{#parameters}}
+        /// <param name="{{name}}">
+        {{#doc-prefix-lambda}}
+        /// {{description}}
+        {{/doc-prefix-lambda}}
+        /// </param>
+        {{/parameters}}
+        {{#response}}
+        /// <returns>
+        {{#doc-prefix-lambda}}
+        /// {{description}}
+        {{/doc-prefix-lambda}}
+        /// </returns>
+        {{/response}}
+        AlgoApiRequest.Sent{{#response}}<{{{type}}}>{{/response}} {{name}}(
+        {{#parameters}}
+            {{{type}}} {{{name}}}{{#default}}= {{{value}}}{{/default}}{{^last}},{{/last}}
+        {{/parameters}});
+
         {{/methods}}
     }
 
@@ -15,8 +37,26 @@ namespace AlgoSdk.{{name}}
     {
         {{#methods}}
         /// <inheritdoc />
-        {{>method/interface}}
-        {{>method/implementation}}
+        AlgoApiRequest.Sent{{#response}}<{{{type}}}>{{/response}} {{name}}(
+        {{#parameters}}
+            {{{type}}} {{{name}}}{{#default}}= {{{value}}}{{/default}}{{^last}},{{/last}}
+        {{/parameters}})
+        {
+            {{#query}}
+            using var queryBuilder = new QueryBuilder(Allocator.Persistent)
+            {{#params}}
+                .Add("{{name}}", {{param}}{{#default}}, {{value}}{{/default}})
+            {{/params}}
+                ;
+            {{/query}}
+            var path = $"{{path}}{{#has_query_params}}{queryBuilder}{{/has_query_params}}";
+            return this
+                .{{action}}(path)
+                {{#body}}.Set{{type}}Body({{value}}){{/body}}
+                .Send()
+                ;
+        }
+
         {{/methods}}
     }
 }

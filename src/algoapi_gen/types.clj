@@ -1,6 +1,12 @@
 (ns algoapi-gen.types
   (:require [clojure.string :as str]))
 
+(defn clean-description
+  [description]
+  (if description
+    (str/replace description #"\\" "")
+    description))
+
 (defn apply-to-first
   [func s]
   (let [[head & tail] s]
@@ -37,7 +43,7 @@
     (case e
       #{"pay" "keyreg" "acfg" "axfer" "afrz" "appl"} "TransactionType"
       #{"json" "msgpack"} "ResponseFormat"
-      #{"sig" "msig" "lsig"} "SigType"
+      #{"sig" "msig" "lsig"} "SignatureType"
       #{"sumhash" "sha512_256"} "HashType"
       #{"all" "none"} "ExcludeFields"
       #{"sender" "receiver" "freeze-target"} "AddressRole"
@@ -85,14 +91,14 @@
      :field-name (camel-case name)
      :property-name (pascal-case name)
      :type (get-type-ref schema)
-     :description (:description schema)}))
+     :description (-> schema (:description) (clean-description))}))
 
 (defn parse-type-def
   [[key {:keys [properties description]}]]
   (cond
     properties {:name (name key)
                 :properties (map parse-property properties)
-                :description description}
+                :description (clean-description description)}
     :else nil))
 
 (defn format-response
@@ -112,18 +118,17 @@
    parse-type-def
    schemas))
 
-(defn with-string-info
-  [property]
-  (assoc property
-         :is-string (= (:type property) "string")))
+(defn get-property-equals
+  [{:keys [type property-name]}]
+  (-> (cond
+        (= type "string") "StringComparer.Equals({property-name}, other.{property-name})"
+        (str/ends-with? type "[]") "ArrayComparer.Equals({property-name}, other.{property-name})"
+        :else "{property-name}.Equals(other.{property-name})")
+      (str/replace #"\{property-name\}" property-name)))
 
-(defn with-array-info
+(defn with-equals
   [property]
-  (let [{property-type :type} property]
-   (assoc property 
-         :is-array (and
-                    property-type
-                    (str/ends-with? property-type "[]")))))
+  (assoc property :equals (get-property-equals property)))
 
 (defn with-property-info
   [modify-property type-def]
@@ -131,17 +136,18 @@
           :properties (map modify-property (:properties type-def))))
 
 (defn with-last-info
-  [type-defs]
-  (concat
-   (butlast type-defs)
-   [(assoc (last type-defs) :last true)]))
+  [type-def]
+  (assoc type-def
+         :properties 
+         (concat
+          (butlast (:properties type-def))
+          [(assoc (last (:properties type-def)) :last true)])))
 
 (defn with-supplemental-info
   [type-defs]
   (->> type-defs
-      (map (partial with-property-info with-string-info))
-      (map (partial with-property-info with-array-info))
-      (with-last-info)))
+      (map (partial with-property-info with-equals))
+      (map with-last-info)))
 
 (defn get-type-defs
   [oapi]
@@ -153,7 +159,25 @@
       (flatten)
       (with-supplemental-info)))
 
+(defn get-wrapper-types-schema
+  [[key schema]]
+  (let [{type :type} schema]
+    (case type
+      "array" {:name (name key)
+               :wrapped-type (str (read-ref (:$ref (:items schema))) "[]")
+               :description (-> schema (:description) (clean-description))
+               :equals "ArrayComparer.Equals(WrappedValue, other.WrappedValue)"}
+      nil)))
+
+(defn get-wrapper-types
+  [oapi]
+  (->> oapi
+       (:components)
+       (:schemas)
+       (keep get-wrapper-types-schema)))
+
 (defn get-types
   [daemon oapi]
   {:name (-> daemon (name) (str/capitalize))
-   :types (get-type-defs oapi)})
+   :types (get-type-defs oapi)
+   :wrapper-types (get-wrapper-types oapi)})

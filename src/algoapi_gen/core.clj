@@ -1,6 +1,7 @@
 (ns algoapi-gen.core
   (:gen-class)
   (:require [clojure.data.json :as json]
+            [clojure.java.io :as io]
             [clojure.string :as str]
             [algoapi-gen.types :as types]
             [clostache.parser :as mustache]))
@@ -49,9 +50,10 @@
 (defn output-filename
   [daemon datatype]
   (str
-   (name daemon)
+   "dist/"
+   (-> daemon (name) (str/capitalize))
    "/"
-   (str/capitalize (name datatype))
+   (-> datatype (name) (str/capitalize))
    ".gen.cs"))
 
 (defn template-for
@@ -61,8 +63,10 @@
 
 (defn output-mustache
   [data daemon datatype]
-  (spit (output-filename daemon datatype)
-        (render-mustache data (template-for datatype))))
+  (let [filename (output-filename daemon datatype)]
+    (io/make-parents filename)
+    (spit filename
+        (render-mustache data (template-for datatype)))))
 
 (defn output
   [daemon]
@@ -74,4 +78,5 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (output :algod))
+  (output :algod)
+  (output :indexer))
