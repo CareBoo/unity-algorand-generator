@@ -96,30 +96,13 @@
      :type (get-type-ref schema)
      :description (-> schema (:description) (clean-description))}))
 
-(defn parse-type-def
+(defn get-type-defs-schema
   [[key {:keys [properties description]}]]
   (cond
     properties {:name (name key)
                 :properties (map parse-property properties)
                 :description (clean-description description)}
     :else nil))
-
-(defn format-response
-  [[name {{{schema :schema} :application/json} :content}]]
-  [name schema])
-
-(defn get-type-defs-responses
-  [responses]
-  (keep 
-   (fn [response]
-       (-> response (format-response) (parse-type-def)))
-   responses))
-
-(defn get-type-defs-schemas
-  [schemas]
-  (keep
-   parse-type-def
-   schemas))
 
 (defn get-property-equals
   [{:keys [type property-name]}]
@@ -152,35 +135,47 @@
       (map (partial with-property-info with-equals))
       (map with-last-info)))
 
-(defn get-type-defs
-  [oapi]
-  (-> oapi
-      (:components)
-      (#(into [] 
-              [(get-type-defs-responses (:responses %))
-               (get-type-defs-schemas (:schemas %))]))
-      (flatten)
-      (with-supplemental-info)))
-
 (defn get-wrapper-types-schema
   [[key schema]]
-  (let [{type :type} schema]
-    (case type
-      "array" {:name (name key)
-               :wrapped-type (str (read-ref (:$ref (:items schema))) "[]")
-               :description (-> schema (:description) (clean-description))
-               :equals "ArrayComparer.Equals(WrappedValue, other.WrappedValue)"}
+  (let [ref (case (:type schema)
+              "array" (-> schema (:items) (:$ref) (str "[]"))
+              (:$ref schema))]
+    (if ref
+      {:name (name key)
+       :wrapped-type (read-ref ref)
+       :description (-> schema (:description) (clean-description))
+       :equals "ArrayComparer.Equals(WrappedValue, other.WrappedValue)"}
       nil)))
 
-(defn get-wrapper-types
+(defn get-type-defs
+  [schemas]
+  (->> schemas
+      (keep get-type-defs-schema)
+      (with-supplemental-info)))
+  
+(defn get-wrapper-type-defs
+  [schemas]
+  (keep get-wrapper-types-schema schemas))
+
+(defn format-response-as-schema
+  [[key response]]
+  (let [{schema :schema} response]
+   [key
+   (-> response
+       (dissoc :schema)
+       (merge schema))]))
+
+(defn parse-oapi-for-schemas
   [oapi]
-  (->> oapi
-       (:components)
-       (:schemas)
-       (keep get-wrapper-types-schema)))
+  (concat
+   (->> oapi (:definitions))
+   (->> oapi
+        (:responses)
+        (map format-response-as-schema))))
 
 (defn get-types
   [daemon oapi]
-  {:name (-> daemon (name) (str/capitalize))
-   :types (get-type-defs oapi)
-   :wrapper-types (get-wrapper-types oapi)})
+  (let [schemas (parse-oapi-for-schemas oapi)]
+   {:name (-> daemon (name) (str/capitalize))
+   :types (get-type-defs schemas)
+   :wrapper-types (get-wrapper-type-defs schemas)}))
