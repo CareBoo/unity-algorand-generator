@@ -8,19 +8,19 @@ namespace AlgoSdk.{{name}}
         : IEquatable<{{name}}>
     {
         {{#properties}}
-        [SerializeField, Tooltip(@"{{description}}")]
-        {{type}} @{{field-name}};
+        [SerializeField, Tooltip(@"{{{description}}}")]
+        {{{type}}} @{{field-name}};
         
         {{/properties}}
         {{#properties}}
         /// <summary>
         {{#doc-prefix-lambda}}
-        /// {{description}}
+        /// {{{description}}}
         {{/doc-prefix-lambda}}
         
         /// </summary>
         [AlgoApiField("{{api-name}}")]
-        public {{type}} {{property-name}}
+        public {{{type}}} {{property-name}}
         {
             get => this.@{{field-name}};
             set => this.@{{field-name}} = value;
@@ -41,7 +41,7 @@ namespace AlgoSdk.{{name}}
     {{#wrapper-types}}
     /// <summary>
     {{#doc-prefix-lambda}}
-    /// {{description}}
+    /// {{{description}}}
     {{/doc-prefix-lambda}}
     
     /// </summary>
@@ -51,7 +51,7 @@ namespace AlgoSdk.{{name}}
         , IWrappedValue<{{wrapped-type}}>
     {
         [SerializeField]
-        {{wrapped-type}} @value;
+        {{{wrapped-type}}} @value;
 
         public {{name}}({{wrapped-type}} value)
         {

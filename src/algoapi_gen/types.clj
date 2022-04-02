@@ -4,7 +4,9 @@
 (defn clean-description
   [description]
   (if description
-    (str/replace description #"\\" "")
+    (-> description 
+        (str/replace #"\\" "") 
+        (str/escape {\" "'"}))
     description))
 
 (defn apply-to-first
@@ -47,15 +49,13 @@
       #{"sumhash" "sha512_256"} "HashType"
       #{"all" "none"} "ExcludeFields"
       #{"sender" "receiver" "freeze-target"} "AddressRole"
+      #{"all" "assets" "created-assets" "apps-local-state" "created-apps" "none"} "ExcludeAccountFields"
       "string")))
 
 (defn get-string-type
   [{:keys [enum format x-go-name x-algorand-format]}]
   (cond
     enum (get-enum-type enum)
-    format (case format
-             "byte" "byte[]"
-             "json" "AlgoApiObject")
     x-go-name (case x-go-name
                 "AccountID" "Address"
                 "TxID" "TransactionId")
@@ -66,6 +66,9 @@
                         "Address" "Address"
                         "TEALProgram" "CompiledTeal"
                         "SignedTransaction" "byte[]")
+    format (case format
+             ("byte" "binary") "byte[]"
+             "json" "AlgoApiObject")
     :else "string"))
 
 (defn get-object-type
@@ -76,31 +79,39 @@
     x-algorand-format))
 
 (defn get-type-ref
-  [schema]
+  [schema required?]
   (let [{ref :$ref, type :type} schema]
     (if ref
       (read-ref ref)
       (case type
         "string" (get-string-type schema)
         "object" (get-object-type schema)
-        "integer" (get-int-type schema)
-        "array" (-> schema (:items) (get-type-ref) (str "[]"))
-        "boolean" "bool"))))
+        "integer" (let [int-type (get-int-type schema)]
+                    (if required? int-type (str "Optional<" int-type ">")))
+        "array" (-> schema 
+                    (:items) 
+                    ((fn [items] (if (:enum items)
+                                   (get-enum-type (:enum items))
+                                   (-> items 
+                                       (get-type-ref true) 
+                                       (str "[]"))))))
+        "boolean" (if required? "bool" "Optional<bool>")))))
 
 (defn parse-property
-  [[key schema]]
+  [required [key schema]]
   (let [name (name key)]
     {:api-name name
      :field-name (camel-case name)
      :property-name (pascal-case name)
-     :type (get-type-ref schema)
+     :type (get-type-ref schema (contains? required name))
      :description (-> schema (:description) (clean-description))}))
 
 (defn get-type-defs-schema
-  [[key {:keys [properties description]}]]
+  [[key {:keys [properties description required]}]]
   (cond
+    (= key :ErrorResponse) nil
     properties {:name (name key)
-                :properties (map parse-property properties)
+                :properties (map (partial parse-property (into #{} required)) properties)
                 :description (clean-description description)}
     :else nil))
 
@@ -177,5 +188,5 @@
   [daemon oapi]
   (let [schemas (parse-oapi-for-schemas oapi)]
    {:name (-> daemon (name) (str/capitalize))
-   :types (get-type-defs schemas)
-   :wrapper-types (get-wrapper-type-defs schemas)}))
+    :types (get-type-defs schemas)
+    :wrapper-types (get-wrapper-type-defs schemas)}))

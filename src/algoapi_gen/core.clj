@@ -7,8 +7,9 @@
             [clojure.string :as str]))
 
 (def oapi-urls
-  {:algod "https://raw.githubusercontent.com/algorand/go-algorand/master/daemon/algod/api/algod.oas2.json"
-   :indexer "https://raw.githubusercontent.com/algorand/indexer/develop/api/indexer.oas2.json"})
+  {:algod "https://raw.githubusercontent.com/algorand/go-algorand/rel/stable/daemon/algod/api/algod.oas2.json"
+   :indexer "https://raw.githubusercontent.com/algorand/indexer/master/api/indexer.oas2.json"
+   :kmd "https://raw.githubusercontent.com/algorand/go-algorand/rel/stable/daemon/kmd/api/swagger.json"})
 
 
 (defn read-json
@@ -28,7 +29,7 @@
   [daemon datatype]
   (let [dir (-> daemon (name) (str/capitalize))
         filename (-> datatype (name) (str/capitalize))]
-    (str "dist/" dir "/" filename ".gen.cs")))
+    (str "dist/" dir "/" dir filename ".gen.cs")))
 
 (defn output-types
   [daemon oapi]
@@ -40,7 +41,7 @@
 
 (defn output-client
   [daemon oapi]
-  (let [template (:client templates)
+  (let [template (slurp (:client templates))
         path (output-path daemon :client)]
     (-> daemon
         (client/get-client oapi)
@@ -49,7 +50,8 @@
 (defn output
   [daemon]
   (let [oapi (read-oapi daemon)]
-    (output-types daemon oapi)))
+    (output-types daemon oapi)
+    (output-client daemon oapi)))
 
 (defn -main
   "I don't do a whole lot ... yet."

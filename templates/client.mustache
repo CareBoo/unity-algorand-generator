@@ -2,31 +2,51 @@
 
 namespace AlgoSdk
 {
-    public interface I{{ name }}Client
+    public interface I{{ name }}Client : IAlgoApiClient
     {
         {{#methods}}
         /// <summary>
         {{#doc-prefix-lambda}}
-        /// {{description}}
+        /// {{{summary}}}
         {{/doc-prefix-lambda}}
+
+
         /// </summary
-        {{#parameters}}
-        /// <param name="{{name}}">
+        /// <remarks>
         {{#doc-prefix-lambda}}
-        /// {{description}}
+        /// {{{description}}}
         {{/doc-prefix-lambda}}
+
+
+
+        /// </remarks>
+        {{#parameters}}
+        /// <param name="{{field-name}}">
+        {{#doc-prefix-lambda}}
+        /// {{{description}}}
+        {{/doc-prefix-lambda}}
+
+
+
+
+
         /// </param>
         {{/parameters}}
         {{#response}}
         /// <returns>
         {{#doc-prefix-lambda}}
-        /// {{description}}
+        /// {{{response-description}}}
         {{/doc-prefix-lambda}}
+
+
+
+
+
+
         /// </returns>
         {{/response}}
-        AlgoApiRequest.Sent{{#response}}<{{{type}}}>{{/response}} {{name}}(
-        {{#parameters}}
-            {{{type}}} {{{name}}}{{#default}}= {{{value}}}{{/default}}{{^last}},{{/last}}
+        AlgoApiRequest.Sent{{#response}}<{{{type}}}>{{/response}} {{name}}({{#parameters}}
+            {{{type}}} {{{field-name}}}{{#default?}} = default{{/default?}}{{^last-param}},{{/last-param}}
         {{/parameters}});
 
         {{/methods}}
@@ -37,22 +57,21 @@ namespace AlgoSdk
     {
         {{#methods}}
         /// <inheritdoc />
-        AlgoApiRequest.Sent{{#response}}<{{{type}}}>{{/response}} {{name}}(
-        {{#parameters}}
-            {{{type}}} {{{name}}}{{#default}}= {{{value}}}{{/default}}{{^last}},{{/last}}
+        public AlgoApiRequest.Sent{{#response}}<{{{type}}}>{{/response}} {{name}}({{#parameters}}
+            {{{type}}} {{{field-name}}}{{#default?}} = default{{/default?}}{{^last-param}},{{/last-param}}
         {{/parameters}})
         {
             {{#query}}
             using var queryBuilder = new QueryBuilder(Allocator.Persistent)
             {{#params}}
-                .Add("{{name}}", {{param}}{{#default}}, {{value}}{{/default}})
+                .Add("{{name}}", {{field-name}})
             {{/params}}
                 ;
             {{/query}}
-            var path = $"{{path}}{{#has_query_params}}{queryBuilder}{{/has_query_params}}";
+            var path = $"{{path}}{{#query}}{queryBuilder}{{/query}}";
             return this
                 .{{action}}(path)
-                {{#body}}.Set{{type}}Body({{value}}){{/body}}
+                {{#body}}.Set{{type}}Body({{field-name}}){{/body}}
                 .Send()
                 ;
         }
