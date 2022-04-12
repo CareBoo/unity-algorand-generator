@@ -125,7 +125,7 @@
        #(str "{" (types/camel-case (%1 1)) "}"))))
 
 (defn get-method-api
-  [oapi [[path method]]]
+  [oapi [path method]]
   {:name (get-method-name method)
    :path (get-method-path path)
    :parameters (false-if-empty (get-method-parameters oapi method path))
@@ -139,8 +139,9 @@
 (defn get-actions-per-path
   [[path actions]]
   (->> actions
-      (filter (fn [[action _]] 
-                (contains? #{:get :post :put :delete} action)))
+       (filter (fn [[action _]]
+                 (println (keys actions) path)
+                 (not (= action :parameters))))
        (map (fn [[action method]]
               [path (assoc method :action action)]))))
 
@@ -149,6 +150,7 @@
   (->> oapi
        (:paths)
        (map get-actions-per-path)
+       (apply concat)
        (keep (partial get-method-api oapi))
        (with-last :last-method)
        ))
