@@ -1,6 +1,8 @@
 {{>header}}
 
-namespace AlgoSdk.{{name}}
+using Dotnet = Algorand.{{name}}.Model;
+
+namespace Algorand.Unity.{{name}}
 {
     {{#types}}
     [AlgoApiObject, Serializable]
@@ -34,6 +36,21 @@ namespace AlgoSdk.{{name}}
                 {{equals}}{{^last}} &&{{/last}}
             {{/properties}}
                 ;
+        }
+
+        public Dotnet.{{name}} ToDotnet()
+        {
+            return (Dotnet.{{name}})this;
+        }
+
+        public static explicit operator Dotnet.{{name}}({{name}} from)
+        {
+            return from.Convert().ToDotnet<Dotnet.{{name}}>();
+        }
+
+        public static explicit operator {{name}}(Dotnet.{{name}} from)
+        {
+            return from.Convert().ToUnity<{{name}}>();
         }
     }
 
