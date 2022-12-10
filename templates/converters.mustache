@@ -1,0 +1,38 @@
+{{>header}}
+using Algorand.Unity.Net;
+
+using Dotnet = Algorand.{{name}}.Model;
+
+namespace Algorand.Unity.{{name}}.Net
+{
+    {{#types}}
+    public static class {{name}}Extensions
+    {
+        public static Dotnet.{{name}} ToDotnet(this {{name}} from)
+        {
+            return from.Convert().ToDotnet<Dotnet.{{name}}>();
+        }
+
+        public static {{name}} ToUnity(this Dotnet.{{name}} from)
+        {
+            return from.Convert().ToUnity<{{name}}>();
+        }
+    }
+
+    {{/types}}
+    {{#wrapper-types}}
+    public static class {{name}}Extensions
+    {
+        public static Dotnet.{{name}} ToDotnet(this {{name}} from)
+        {
+            return from.Convert().ToDotnet<Dotnet.{{name}}>();
+        }
+
+        public static {{name}} ToUnity(this Dotnet.{{name}} from)
+        {
+            return from.Convert().ToUnity<{{name}}>();
+        }
+    }
+    
+    {{/wrapper-types}}
+}

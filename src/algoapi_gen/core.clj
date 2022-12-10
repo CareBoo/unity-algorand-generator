@@ -23,7 +23,8 @@
 
 (def templates
   {:types "templates/types.mustache"
-   :client "templates/client.mustache"})
+   :client "templates/client.mustache"
+   :converters "templates/converters.mustache"})
 
 (defn output-path
   [daemon datatype]
@@ -35,6 +36,14 @@
   [daemon oapi]
   (let [template (slurp (:types templates))
         path (output-path daemon :types)]
+    (-> daemon
+        (types/get-types oapi)
+        (mustache/output template path))))
+
+(defn output-converters
+  [daemon oapi]
+  (let [template (slurp (:converters templates))
+        path (output-path daemon :converters)]
     (-> daemon
         (types/get-types oapi)
         (mustache/output template path))))
@@ -51,6 +60,7 @@
   [daemon]
   (let [oapi (read-oapi daemon)]
     (output-types daemon oapi)
+    (output-converters daemon oapi)
     (output-client daemon oapi)))
 
 (defn -main

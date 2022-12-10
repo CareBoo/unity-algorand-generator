@@ -37,21 +37,6 @@ namespace Algorand.Unity.{{name}}
             {{/properties}}
                 ;
         }
-
-        public Dotnet.{{name}} ToDotnet()
-        {
-            return (Dotnet.{{name}})this;
-        }
-
-        public static explicit operator Dotnet.{{name}}({{name}} from)
-        {
-            return from.Convert().ToDotnet<Dotnet.{{name}}>();
-        }
-
-        public static explicit operator {{name}}(Dotnet.{{name}} from)
-        {
-            return from.Convert().ToUnity<{{name}}>();
-        }
     }
 
     {{/types}}
