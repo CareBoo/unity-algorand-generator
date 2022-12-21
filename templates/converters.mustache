@@ -8,31 +8,16 @@ namespace Algorand.Unity.{{name}}.Net
     {{#types}}
     public static class {{name}}Extensions
     {
-        public static Dotnet.{{name}} ToDotnet(this {{name}} from)
+        public static Dotnet.{{dotnet-name}} ToDotnet(this {{name}} from)
         {
-            return from.Convert().ToDotnet<Dotnet.{{name}}>();
+            return from.Convert().ToDotnet<Dotnet.{{dotnet-name}}>();
         }
 
-        public static {{name}} ToUnity(this Dotnet.{{name}} from)
+        public static {{name}} ToUnity(this Dotnet.{{dotnet-name}} from)
         {
             return from.Convert().ToUnity<{{name}}>();
         }
     }
 
     {{/types}}
-    {{#wrapper-types}}
-    public static class {{name}}Extensions
-    {
-        public static Dotnet.{{name}} ToDotnet(this {{name}} from)
-        {
-            return from.Convert().ToDotnet<Dotnet.{{name}}>();
-        }
-
-        public static {{name}} ToUnity(this Dotnet.{{name}} from)
-        {
-            return from.Convert().ToUnity<{{name}}>();
-        }
-    }
-    
-    {{/wrapper-types}}
 }

@@ -97,6 +97,13 @@
                                        (str "[]"))))))
         "boolean" (if required? "bool" "Optional<bool>")))))
 
+(defn get-property-name
+  [name]
+  (let [pascal-name (pascal-case name)]
+    (case pascal-name
+      "StateProof" "EncodedStateProof"
+      pascal-name)))
+
 (defn parse-property
   [required [key schema]]
   (let [name (name key)]
@@ -140,11 +147,27 @@
           (butlast (:properties type-def))
           [(assoc (last (:properties type-def)) :last true)])))
 
+(defn get-dotnet-name
+  [{:keys [name]}]
+  (case name
+    "PendingTransactionsResponse" "PendingTransactions"
+    "PendingTransactionResponse" "IReturnableTransaction"
+    name
+    ))
+
+(defn with-dotnet-type-info
+  [type-def]
+  (assoc type-def
+         :dotnet-name (get-dotnet-name type-def)
+         ))
+
+
 (defn with-supplemental-info
   [type-defs]
   (->> type-defs
       (map (partial with-property-info with-equals))
-      (map with-last-info)))
+      (map with-last-info)
+      (map with-dotnet-type-info)))
 
 (defn get-wrapper-types-schema
   [[key schema]]
