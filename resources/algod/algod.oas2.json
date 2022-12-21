@@ -1,14 +1,7 @@
 {
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "schemes": ["http", "https"],
   "swagger": "2.0",
   "info": {
     "description": "API endpoint for algod operations.",
@@ -25,16 +18,9 @@
   "paths": {
     "/health": {
       "get": {
-        "tags": [
-          "public",
-          "common"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "common"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Returns OK if healthy.",
         "operationId": "HealthCheck",
         "responses": {
@@ -49,16 +35,9 @@
     },
     "/metrics": {
       "get": {
-        "tags": [
-          "public",
-          "common"
-        ],
-        "produces": [
-          "text/plain"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "common"],
+        "produces": ["text/plain"],
+        "schemes": ["http"],
         "summary": "Return metrics about algod functioning.",
         "operationId": "Metrics",
         "responses": {
@@ -74,16 +53,9 @@
     "/genesis": {
       "get": {
         "description": "Returns the entire genesis file in json.",
-        "tags": [
-          "public",
-          "common"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "common"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Gets the genesis information.",
         "operationId": "GetGenesis",
         "responses": {
@@ -102,16 +74,9 @@
     "/swagger.json": {
       "get": {
         "description": "Returns the entire swagger spec in json.",
-        "tags": [
-          "public",
-          "common"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "common"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Gets the current swagger spec.",
         "operationId": "SwaggerJSON",
         "responses": {
@@ -130,16 +95,9 @@
     "/versions": {
       "get": {
         "description": "Retrieves the supported API versions, binary build versions, and genesis information.",
-        "tags": [
-          "public",
-          "common"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "common"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "operationId": "GetVersion",
         "responses": {
           "200": {
@@ -151,17 +109,9 @@
     "/v2/accounts/{address}": {
       "get": {
         "description": "Given a specific account public key, this call returns the accounts status, balance and spendable amounts",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json", "application/msgpack"],
+        "schemes": ["http"],
         "summary": "Get account information.",
         "operationId": "AccountInformation",
         "parameters": [
@@ -179,10 +129,7 @@
             "in": "query",
             "required": false,
             "type": "string",
-            "enum": [
-              "all",
-              "none"
-            ]
+            "enum": ["all", "none"]
           },
           {
             "$ref": "#/parameters/format"
@@ -223,10 +170,7 @@
           "required": true
         },
         {
-          "enum": [
-            "json",
-            "msgpack"
-          ],
+          "enum": ["json", "msgpack"],
           "type": "string",
           "name": "format",
           "in": "query"
@@ -236,17 +180,9 @@
     "/v2/accounts/{address}/assets/{asset-id}": {
       "get": {
         "description": "Given a specific account public key and asset ID, this call returns the account's asset holding and asset parameters (if either exist). Asset parameters will only be returned if the provided address is the asset's creator.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json", "application/msgpack"],
+        "schemes": ["http"],
         "summary": "Get account information about a given asset.",
         "operationId": "AccountAssetInformation",
         "parameters": [
@@ -304,10 +240,7 @@
           "required": true
         },
         {
-          "enum": [
-            "json",
-            "msgpack"
-          ],
+          "enum": ["json", "msgpack"],
           "type": "string",
           "name": "format",
           "in": "query"
@@ -317,17 +250,9 @@
     "/v2/accounts/{address}/applications/{application-id}": {
       "get": {
         "description": "Given a specific account public key and application ID, this call returns the account's application local state and global state (AppLocalState and AppParams, if either exists). Global state will only be returned if the provided address is the application's creator.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json", "application/msgpack"],
+        "schemes": ["http"],
         "summary": "Get account information about a given app.",
         "operationId": "AccountApplicationInformation",
         "parameters": [
@@ -385,10 +310,7 @@
           "required": true
         },
         {
-          "enum": [
-            "json",
-            "msgpack"
-          ],
+          "enum": ["json", "msgpack"],
           "type": "string",
           "name": "format",
           "in": "query"
@@ -398,17 +320,9 @@
     "/v2/accounts/{address}/transactions/pending": {
       "get": {
         "description": "Get the list of pending transactions by address, sorted by priority, in decreasing order, truncated at the end at MAX. If MAX = 0, returns all pending transactions.\n",
-        "tags": [
-          "public",
-          "participating"
-        ],
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "participating"],
+        "produces": ["application/json", "application/msgpack"],
+        "schemes": ["http"],
         "summary": "Get a list of unconfirmed transactions currently in the transaction pool by address.",
         "operationId": "GetPendingTransactionsByAddress",
         "parameters": [
@@ -471,17 +385,9 @@
     },
     "/v2/blocks/{round}": {
       "get": {
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json", "application/msgpack"],
+        "schemes": ["http"],
         "summary": "Get the block for the given round.",
         "operationId": "GetBlock",
         "parameters": [
@@ -538,10 +444,7 @@
           "required": true
         },
         {
-          "enum": [
-            "json",
-            "msgpack"
-          ],
+          "enum": ["json", "msgpack"],
           "type": "string",
           "name": "format",
           "in": "query"
@@ -550,16 +453,9 @@
     },
     "/v2/blocks/{round}/hash": {
       "get": {
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Get the block hash for the block on the given round.",
         "operationId": "GetBlockHash",
         "parameters": [
@@ -608,16 +504,9 @@
     },
     "/v2/blocks/{round}/transactions/{txid}/proof": {
       "get": {
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Get a proof for a transaction in a block.",
         "operationId": "GetTransactionProof",
         "parameters": [
@@ -638,10 +527,7 @@
           },
           {
             "type": "string",
-            "enum": [
-              "sha512_256",
-              "sha256"
-            ],
+            "enum": ["sha512_256", "sha256"],
             "description": "The type of hash function used to create the proof, must be one of: \n* sha512_256 \n* sha256",
             "name": "hashtype",
             "in": "query",
@@ -701,16 +587,9 @@
     },
     "/v2/ledger/supply": {
       "get": {
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Get the current supply reported by the ledger.",
         "operationId": "GetSupply",
         "responses": {
@@ -731,17 +610,10 @@
     },
     "/v2/participation": {
       "get": {
-        "tags": [
-          "private",
-          "participating"
-        ],
+        "tags": ["private", "participating"],
         "description": "Return a list of participation keys",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Return a list of participation keys",
         "operationId": "GetParticipationKeys",
         "responses": {
@@ -779,19 +651,10 @@
         }
       },
       "post": {
-        "tags": [
-          "private",
-          "participating"
-        ],
-        "consumes": [
-          "application/msgpack"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["private", "participating"],
+        "consumes": ["application/msgpack"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Add a participation key to the node",
         "operationId": "AddParticipationKey",
         "parameters": [
@@ -848,17 +711,10 @@
     },
     "/v2/participation/{participation-id}": {
       "delete": {
-        "tags": [
-          "private",
-          "participating"
-        ],
+        "tags": ["private", "participating"],
         "description": "Delete a given participation key by ID",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Delete a given participation key by ID",
         "operationId": "DeleteParticipationKeyByID",
         "responses": {
@@ -895,17 +751,10 @@
         }
       },
       "get": {
-        "tags": [
-          "private",
-          "participating"
-        ],
+        "tags": ["private", "participating"],
         "description": "Given a participation ID, return information about that participation key",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Get participation key info given a participation ID",
         "operationId": "GetParticipationKeyByID",
         "responses": {
@@ -943,17 +792,10 @@
         }
       },
       "post": {
-        "tags": [
-          "private",
-          "participating"
-        ],
+        "tags": ["private", "participating"],
         "description": "Given a participation ID, append state proof keys to a particular set of participation keys",
-        "consumes": [
-          "application/msgpack"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/msgpack"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "description": "The state proof keys to add to an existing participation ID",
@@ -966,9 +808,7 @@
             }
           }
         ],
-        "schemes": [
-          "http"
-        ],
+        "schemes": ["http"],
         "summary": "Append state proof keys to a participation key",
         "operationId": "AppendKeys",
         "responses": {
@@ -1017,10 +857,7 @@
     "/v2/shutdown": {
       "post": {
         "description": "Special management endpoint to shutdown the node. Optionally provide a timeout parameter to indicate that the node should begin shutting down after a number of seconds.",
-        "tags": [
-          "private",
-          "nonparticipating"
-        ],
+        "tags": ["private", "nonparticipating"],
         "operationId": "ShutdownNode",
         "parameters": [
           {
@@ -1041,16 +878,9 @@
     },
     "/v2/status": {
       "get": {
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Gets the current node status.",
         "operationId": "GetStatus",
         "responses": {
@@ -1077,17 +907,10 @@
     },
     "/v2/status/wait-for-block-after/{round}": {
       "get": {
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
+        "tags": ["public", "nonparticipating"],
         "description": "Waits for a block to appear after round {round} and returns the node's status at the time.",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Gets the node status after waiting for the given round.",
         "operationId": "WaitForBlock",
         "parameters": [
@@ -1144,19 +967,10 @@
     },
     "/v2/transactions": {
       "post": {
-        "tags": [
-          "public",
-          "participating"
-        ],
-        "consumes": [
-          "application/x-binary"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "participating"],
+        "consumes": ["application/x-binary"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Broadcasts a raw transaction to the network.",
         "operationId": "RawTransaction",
         "parameters": [
@@ -1207,16 +1021,9 @@
     },
     "/v2/transactions/params": {
       "get": {
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Get parameters for constructing a new transaction",
         "operationId": "TransactionParams",
         "responses": {
@@ -1250,17 +1057,9 @@
     "/v2/transactions/pending": {
       "get": {
         "description": "Get the list of pending transactions, sorted by priority, in decreasing order, truncated at the end at MAX. If MAX = 0, returns all pending transactions.\n",
-        "tags": [
-          "public",
-          "participating"
-        ],
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "participating"],
+        "produces": ["application/json", "application/msgpack"],
+        "schemes": ["http"],
         "summary": "Get a list of unconfirmed transactions currently in the transaction pool.",
         "operationId": "GetPendingTransactions",
         "parameters": [
@@ -1302,17 +1101,9 @@
     "/v2/transactions/pending/{txid}": {
       "get": {
         "description": "Given a transaction ID of a recently submitted transaction, it returns information about it.  There are several cases when this might succeed:\n- transaction committed (committed round \u003e 0)\n- transaction still in the pool (committed round = 0, pool error = \"\")\n- transaction removed from pool due to error (committed round = 0, pool error != \"\")\nOr the transaction may have happened sufficiently long ago that the node no longer remembers it, and this will return an error.\n",
-        "tags": [
-          "public",
-          "participating"
-        ],
-        "produces": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "participating"],
+        "produces": ["application/json", "application/msgpack"],
+        "schemes": ["http"],
         "summary": "Get a specific pending transaction.",
         "operationId": "PendingTransactionInformation",
         "parameters": [
@@ -1370,16 +1161,9 @@
     "/v2/deltas/{round}": {
       "get": {
         "description": "Get ledger deltas for a round.",
-        "tags": [
-            "public",
-            "data"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "data"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Get a LedgerStateDelta object for a given round",
         "operationId": "GetLedgerStateDelta",
         "parameters": [
@@ -1434,16 +1218,9 @@
     },
     "/v2/stateproofs/{round}": {
       "get": {
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Get a state proof that covers a given round",
         "operationId": "GetStateProof",
         "parameters": [
@@ -1506,16 +1283,9 @@
     },
     "/v2/blocks/{round}/lightheader/proof": {
       "get": {
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Gets a proof for a given light block header inside a state proof commitment",
         "operationId": "GetLightBlockHeaderProof",
         "parameters": [
@@ -1579,16 +1349,9 @@
     "/v2/applications/{application-id}": {
       "get": {
         "description": "Given a application ID, it returns application information including creator, approval and clear programs, global and local schemas, and global state.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Get application information.",
         "operationId": "GetApplicationByID",
         "parameters": [
@@ -1646,16 +1409,9 @@
     "/v2/applications/{application-id}/boxes": {
       "get": {
         "description": "Given an application ID, return all Box names. No particular ordering is guaranteed. Request fails when client or server-side configured limits prevent returning all Box names.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Get all box names for a given application.",
         "operationId": "GetApplicationBoxes",
         "parameters": [
@@ -1713,16 +1469,9 @@
     "/v2/applications/{application-id}/box": {
       "get": {
         "description": "Given an application ID and box name, it returns the box name and value (each base64 encoded). Box names must be in the goal app call arg encoding form 'encoding:value'. For ints, use the form 'int:1234'. For raw bytes, use the form 'b64:A=='. For printable strings, use the form 'str:hello'. For addresses, use the form 'addr:XYZ...'.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Get box information for a given application.",
         "operationId": "GetApplicationBoxByName",
         "parameters": [
@@ -1793,16 +1542,9 @@
     "/v2/assets/{asset-id}": {
       "get": {
         "description": "Given a asset ID, it returns asset information including creator, name, total supply and special addresses.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Get asset information.",
         "operationId": "GetAssetByID",
         "parameters": [
@@ -1860,13 +1602,8 @@
     "/v2/ledger/sync": {
       "delete": {
         "description": "Unset the ledger sync round.",
-        "tags": [
-          "public",
-          "data"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "data"],
+        "schemes": ["http"],
         "summary": "Removes minimum sync round restriction from the ledger.",
         "operationId": "UnsetSyncRound",
         "responses": {
@@ -1904,13 +1641,8 @@
       },
       "get": {
         "description": "Gets the minimum sync round for the ledger.",
-        "tags": [
-          "public",
-          "data"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "data"],
+        "schemes": ["http"],
         "summary": "Returns the minimum sync round the ledger is keeping in cache.",
         "operationId": "GetSyncRound",
         "responses": {
@@ -1950,13 +1682,8 @@
     "/v2/ledger/sync/{round}": {
       "post": {
         "description": "Sets the minimum sync round on the ledger.",
-        "tags": [
-          "public",
-          "data"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "data"],
+        "schemes": ["http"],
         "summary": "Given a round, tells the ledger to keep that round in its cache.",
         "operationId": "SetSyncRound",
         "parameters": [
@@ -2006,19 +1733,10 @@
     "/v2/teal/compile": {
       "post": {
         "description": "Given TEAL source code in plain text, return base64 encoded program bytes and base32 SHA512_256 hash of program bytes (Address style). This endpoint is only enabled when a node's configuration file sets EnableDeveloperAPI to true.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "consumes": [
-          "text/plain"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "consumes": ["text/plain"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Compile TEAL source code to binary, produce its hash",
         "operationId": "TealCompile",
         "parameters": [
@@ -2074,19 +1792,10 @@
     "/v2/teal/disassemble": {
       "post": {
         "description": "Given the program bytes, return the TEAL source code in plain text. This endpoint is only enabled when a node's configuration file sets EnableDeveloperAPI to true.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "consumes": [
-          "application/x-binary"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "consumes": ["application/x-binary"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Disassemble program bytes into the TEAL source code.",
         "operationId": "TealDisassemble",
         "parameters": [
@@ -2135,17 +1844,10 @@
     },
     "/v2/catchup/{catchpoint}": {
       "post": {
-        "tags": [
-          "private",
-          "nonparticipating"
-        ],
+        "tags": ["private", "nonparticipating"],
         "description": "Given a catchpoint, it starts catching up to this catchpoint",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Starts a catchpoint catchup.",
         "operationId": "StartCatchup",
         "parameters": [
@@ -2186,17 +1888,10 @@
         }
       },
       "delete": {
-        "tags": [
-          "private",
-          "nonparticipating"
-        ],
+        "tags": ["private", "nonparticipating"],
         "description": "Given a catchpoint, it aborts catching up to this catchpoint",
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Aborts a catchpoint catchup.",
         "operationId": "AbortCatchup",
         "parameters": [
@@ -2243,20 +1938,10 @@
     "/v2/teal/dryrun": {
       "post": {
         "description": "Executes TEAL program(s) in context and returns debugging information about the execution. This endpoint is only enabled when a node's configuration file sets EnableDeveloperAPI to true.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ],
-        "consumes": [
-          "application/json",
-          "application/msgpack"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http"
-        ],
+        "tags": ["public", "nonparticipating"],
+        "consumes": ["application/json", "application/msgpack"],
+        "produces": ["application/json"],
+        "schemes": ["http"],
         "summary": "Provide debugging information for a transaction (or group).",
         "operationId": "TealDryrun",
         "parameters": [
@@ -2423,11 +2108,7 @@
         "sig-type": {
           "description": "Indicates what type of signature is used by this account, must be one of:\n* sig\n* msig\n* lsig",
           "type": "string",
-          "enum": [
-            "sig",
-            "msig",
-            "lsig"
-          ]
+          "enum": ["sig", "msig", "lsig"]
         },
         "auth-addr": {
           "description": "\\[spend\\] the address against which signing should be checked. If empty, the address of the current account is used. This field can be updated in any transaction by setting the RekeyTo field.",
@@ -2439,8 +2120,7 @@
     "LedgerStateDelta": {
       "description": "Contains ledger updates.",
       "type": "object",
-      "required": [
-      ],
+      "required": [],
       "properties": {
         "accts": {
           "description": "AccountDeltas object",
@@ -2491,12 +2171,7 @@
     "AccountTotals": {
       "description": "Total Algos in the system grouped by account status",
       "type": "object",
-      "required": [
-        "online",
-        "offline",
-        "not-participating",
-        "rewards-level"
-      ],
+      "required": ["online", "offline", "not-participating", "rewards-level"],
       "properties": {
         "online": {
           "description": "Amount of stake in online accounts",
@@ -2546,11 +2221,7 @@
     "TxLease": {
       "description": "",
       "type": "object",
-      "required": [
-        "sender",
-        "lease",
-        "expiration"
-      ],
+      "required": ["sender", "lease", "expiration"],
       "properties": {
         "sender": {
           "description": "Address of the lease sender",
@@ -2570,11 +2241,7 @@
     "ModifiedAsset": {
       "description": "Asset which was created or deleted.",
       "type": "object",
-      "required": [
-        "id",
-        "created",
-        "creator"
-      ],
+      "required": ["id", "created", "creator"],
       "properties": {
         "id": {
           "description": "Asset Id",
@@ -2593,11 +2260,7 @@
     "ModifiedApp": {
       "description": "App which was created or deleted.",
       "type": "object",
-      "required": [
-        "id",
-        "created",
-        "creator"
-      ],
+      "required": ["id", "created", "creator"],
       "properties": {
         "id": {
           "description": "App Id",
@@ -2616,10 +2279,7 @@
     "AccountBalanceRecord": {
       "description": "Account and its address",
       "type": "object",
-      "required": [
-        "address",
-        "account-data"
-      ],
+      "required": ["address", "account-data"],
       "properties": {
         "address": {
           "description": "Address of the updated account.",
@@ -2634,12 +2294,7 @@
     "AppResourceRecord": {
       "description": "Represents AppParams and AppLocalStateDelta in deltas",
       "type": "object",
-      "required": [
-        "app-index",
-        "address",
-        "app-deleted",
-        "app-local-state-deleted"
-      ],
+      "required": ["app-index", "address", "app-deleted", "app-local-state-deleted"],
       "properties": {
         "app-index": {
           "description": "App index",
@@ -2670,12 +2325,7 @@
     },
     "AssetResourceRecord": {
       "description": "Represents AssetParams and AssetHolding in deltas",
-      "required": [
-        "asset-index",
-        "address",
-        "asset-deleted",
-        "asset-holding-deleted"
-      ],
+      "required": ["asset-index", "address", "asset-deleted", "asset-holding-deleted"],
       "properties": {
         "asset-index": {
           "description": "Index of the asset",
@@ -2747,10 +2397,7 @@
     "Asset": {
       "description": "Specifies both the unique identifier and the parameters for an asset",
       "type": "object",
-      "required": [
-        "index",
-        "params"
-      ],
+      "required": ["index", "params"],
       "properties": {
         "index": {
           "description": "unique asset identifier",
@@ -2764,11 +2411,7 @@
     "AssetHolding": {
       "description": "Describes an asset held by an account.\n\nDefinition:\ndata/basics/userBalance.go : AssetHolding",
       "type": "object",
-      "required": [
-        "asset-id",
-        "amount",
-        "is-frozen"
-      ],
+      "required": ["asset-id", "amount", "is-frozen"],
       "properties": {
         "amount": {
           "description": "\\[a\\] number of units held.",
@@ -2789,11 +2432,7 @@
     "AssetParams": {
       "description": "AssetParams specifies the parameters for an asset.\n\n\\[apar\\] when part of an AssetConfig transaction.\n\nDefinition:\ndata/transactions/asset.go : AssetParams",
       "type": "object",
-      "required": [
-        "creator",
-        "total",
-        "decimals"
-      ],
+      "required": ["creator", "total", "decimals"],
       "properties": {
         "clawback": {
           "description": "\\[c\\] Address of account used to clawback holdings of this asset.  If empty, clawback is not permitted.",
@@ -2867,10 +2506,7 @@
     "ApplicationStateSchema": {
       "description": "Specifies maximums on the number of each type that may be stored.",
       "type": "object",
-      "required": [
-        "num-uint",
-        "num-byte-slice"
-      ],
+      "required": ["num-uint", "num-byte-slice"],
       "properties": {
         "num-uint": {
           "description": "\\[nui\\] num of uints.",
@@ -2885,10 +2521,7 @@
     "ApplicationLocalState": {
       "description": "Stores local state associated with an application.",
       "type": "object",
-      "required": [
-        "id",
-        "schema"
-      ],
+      "required": ["id", "schema"],
       "properties": {
         "id": {
           "description": "The application which this local state is for.",
@@ -2907,11 +2540,7 @@
     "ParticipationKey": {
       "description": "Represents a participation key used by the node.",
       "type": "object",
-      "required": [
-        "id",
-        "key",
-        "address"
-      ],
+      "required": ["id", "key", "address"],
       "properties": {
         "id": {
           "description": "The key's ParticipationID.",
@@ -2960,10 +2589,7 @@
     "TealKeyValue": {
       "description": "Represents a key-value pair in an application store.",
       "type": "object",
-      "required": [
-        "key",
-        "value"
-      ],
+      "required": ["key", "value"],
       "properties": {
         "key": {
           "type": "string"
@@ -2976,11 +2602,7 @@
     "TealValue": {
       "description": "Represents a TEAL value.",
       "type": "object",
-      "required": [
-        "type",
-        "uint",
-        "bytes"
-      ],
+      "required": ["type", "uint", "bytes"],
       "properties": {
         "type": {
           "description": "\\[tt\\] value type. Value `1` refers to **bytes**, value `2` refers to **uint**",
@@ -3007,10 +2629,7 @@
     "AccountStateDelta": {
       "description": "Application state delta.",
       "type": "object",
-      "required": [
-        "address",
-        "delta"
-      ],
+      "required": ["address", "delta"],
       "properties": {
         "address": {
           "type": "string"
@@ -3023,10 +2642,7 @@
     "EvalDeltaKeyValue": {
       "description": "Key-value pairs for StateDelta.",
       "type": "object",
-      "required": [
-        "key",
-        "value"
-      ],
+      "required": ["key", "value"],
       "properties": {
         "key": {
           "type": "string"
@@ -3039,9 +2655,7 @@
     "EvalDelta": {
       "description": "Represents a TEAL value delta.",
       "type": "object",
-      "required": [
-        "action"
-      ],
+      "required": ["action"],
       "properties": {
         "action": {
           "description": "\\[at\\] delta action.",
@@ -3061,10 +2675,7 @@
     "Application": {
       "description": "Application index and its parameters",
       "type": "object",
-      "required": [
-        "id",
-        "params"
-      ],
+      "required": ["id", "params"],
       "properties": {
         "id": {
           "description": "\\[appidx\\] application index.",
@@ -3079,11 +2690,7 @@
     "ApplicationParams": {
       "description": "Stores the global information associated with an application.",
       "type": "object",
-      "required": [
-        "creator",
-        "approval-program",
-        "clear-state-program"
-      ],
+      "required": ["creator", "approval-program", "clear-state-program"],
       "properties": {
         "creator": {
           "description": "The address that created this application. This is the address where the parameters and global state for this application can be found.",
@@ -3123,11 +2730,7 @@
     "DryrunState": {
       "description": "Stores the TEAL eval step data",
       "type": "object",
-      "required": [
-        "line",
-        "pc",
-        "stack"
-      ],
+      "required": ["line", "pc", "stack"],
       "properties": {
         "line": {
           "description": "Line number",
@@ -3158,9 +2761,7 @@
     "DryrunTxnResult": {
       "description": "DryrunTxnResult contains any LogicSig or ApplicationCall program debug information and state updates from a dryrun.",
       "type": "object",
-      "required": [
-        "disassembly"
-      ],
+      "required": ["disassembly"],
       "properties": {
         "disassembly": {
           "description": "Disassembled program line by line.",
@@ -3229,9 +2830,7 @@
     "ErrorResponse": {
       "description": "An error response with optional data field.",
       "type": "object",
-      "required": [
-        "message"
-      ],
+      "required": ["message"],
       "properties": {
         "data": {
           "type": "object"
@@ -3244,15 +2843,7 @@
     "DryrunRequest": {
       "description": "Request data type for dryrun endpoint. Given the Transactions and simulated ledger state upload, run TEAL scripts and return debugging information.",
       "type": "object",
-      "required": [
-        "txns",
-        "accounts",
-        "apps",
-        "protocol-version",
-        "round",
-        "latest-timestamp",
-        "sources"
-      ],
+      "required": ["txns", "accounts", "apps", "protocol-version", "round", "latest-timestamp", "sources"],
       "properties": {
         "txns": {
           "type": "array",
@@ -3300,12 +2891,7 @@
     "DryrunSource": {
       "description": "DryrunSource is TEAL source text that gets uploaded, compiled, and inserted into transactions or application state.",
       "type": "object",
-      "required": [
-        "field-name",
-        "source",
-        "txn-index",
-        "app-index"
-      ],
+      "required": ["field-name", "source", "txn-index", "app-index"],
       "properties": {
         "field-name": {
           "description": "FieldName is what kind of sources this is. If lsig then it goes into the transactions[this.TxnIndex].LogicSig. If approv or clearp it goes into the Approval Program or Clear State Program of application[this.AppIndex].",
@@ -3326,10 +2912,7 @@
     "Box": {
       "description": "Box name and its content.",
       "type": "object",
-      "required": [
-        "name",
-        "value"
-      ],
+      "required": ["name", "value"],
       "properties": {
         "name": {
           "description": "\\[name\\] box name, base64 encoded",
@@ -3346,9 +2929,7 @@
     "BoxDescriptor": {
       "description": "Box descriptor describes a Box.",
       "type": "object",
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "properties": {
         "name": {
           "description": "Base64 encoded box name",
@@ -3377,12 +2958,7 @@
       "description": "algod version information.",
       "type": "object",
       "title": "Version contains the current algod version.",
-      "required": [
-        "versions",
-        "genesis_id",
-        "genesis_hash_b64",
-        "build"
-      ],
+      "required": ["versions", "genesis_id", "genesis_hash_b64", "build"],
       "properties": {
         "build": {
           "$ref": "#/definitions/BuildVersion"
@@ -3403,19 +2979,10 @@
       }
     },
     "BuildVersion": {
-      "tags": [
-        "common"
-      ],
+      "tags": ["common"],
       "type": "object",
       "title": "BuildVersion contains the current algod build version information.",
-      "required": [
-        "major",
-        "minor",
-        "build_number",
-        "commit_hash",
-        "branch",
-        "channel"
-      ],
+      "required": ["major", "minor", "build_number", "commit_hash", "branch", "channel"],
       "properties": {
         "branch": {
           "type": "string"
@@ -3443,10 +3010,7 @@
     "PendingTransactionResponse": {
       "description": "Details about a pending transaction. If the transaction was recently confirmed, includes confirmation details like the round and reward details.",
       "type": "object",
-      "required": [
-        "txn",
-        "pool-error"
-      ],
+      "required": ["txn", "pool-error"],
       "properties": {
         "asset-index": {
           "description": "The asset index if the transaction was found and it created an asset.",
@@ -3520,10 +3084,7 @@
     "StateProof": {
       "description": "Represents a state proof and its corresponding message",
       "type": "object",
-      "required": [
-        "Message",
-        "StateProof"
-      ],
+      "required": ["Message", "StateProof"],
       "properties": {
         "Message": {
           "$ref": "#/definitions/StateProofMessage"
@@ -3538,11 +3099,7 @@
     "LightBlockHeaderProof": {
       "description": "Proof of membership and position of a light block header.",
       "type": "object",
-      "required": [
-        "index",
-        "treedepth",
-        "proof"
-      ],
+      "required": ["index", "treedepth", "proof"],
       "properties": {
         "index": {
           "description": "The index of the light block header in the vector commitment tree",
@@ -3614,11 +3171,7 @@
       "in": "query"
     },
     "address-role": {
-      "enum": [
-        "sender",
-        "receiver",
-        "freeze-target"
-      ],
+      "enum": ["sender", "receiver", "freeze-target"],
       "type": "string",
       "description": "Combine with the address parameter to define what type of address to search for.",
       "name": "address-role",
@@ -3676,10 +3229,7 @@
       "in": "query"
     },
     "format": {
-      "enum": [
-        "json",
-        "msgpack"
-      ],
+      "enum": ["json", "msgpack"],
       "type": "string",
       "description": "Configures whether the response object is JSON or MessagePack encoded.",
       "name": "format",
@@ -3736,11 +3286,7 @@
       "required": true
     },
     "sig-type": {
-      "enum": [
-        "sig",
-        "msig",
-        "lsig"
-      ],
+      "enum": ["sig", "msig", "lsig"],
       "type": "string",
       "description": "SigType filters just results using the specified type of signature:\n* sig - Standard\n* msig - MultiSig\n* lsig - LogicSig",
       "name": "sig-type",
@@ -3755,15 +3301,7 @@
       "in": "query"
     },
     "tx-type": {
-      "enum": [
-        "pay",
-        "keyreg",
-        "acfg",
-        "axfer",
-        "afrz",
-        "appl",
-        "stpf"
-      ],
+      "enum": ["pay", "keyreg", "acfg", "axfer", "afrz", "appl", "stpf"],
       "type": "string",
       "name": "tx-type",
       "in": "query"
@@ -3774,9 +3312,7 @@
       "description": "Response containing the ledger's minimum sync round",
       "schema": {
         "type": "object",
-        "required": [
-          "round"
-        ],
+        "required": ["round"],
         "properties": {
           "round": {
             "description": "The minimum sync round for the ledger.",
@@ -3813,9 +3349,7 @@
       "description": "AccountAssetResponse describes the account's asset holding and asset parameters (if either exist) for a specific asset ID. Asset parameters will only be returned if the provided address is the asset's creator.",
       "schema": {
         "type": "object",
-        "required": [
-          "round"
-        ],
+        "required": ["round"],
         "properties": {
           "round": {
             "description": "The round for which this information is relevant.",
@@ -3836,9 +3370,7 @@
       "description": "AccountApplicationResponse describes the account's application local state and global state (AppLocalState and AppParams, if either exists) for a specific application ID. Global state will only be returned if the provided address is the application's creator.",
       "schema": {
         "type": "object",
-        "required": [
-          "round"
-        ],
+        "required": ["round"],
         "properties": {
           "round": {
             "description": "The round for which this information is relevant.",
@@ -3859,9 +3391,7 @@
       "description": "Encoded block object.",
       "schema": {
         "type": "object",
-        "required": [
-          "block"
-        ],
+        "required": ["block"],
         "properties": {
           "block": {
             "description": "Block header data.",
@@ -3880,9 +3410,7 @@
       "description": "Hash of a block header.",
       "schema": {
         "type": "object",
-        "required": [
-          "blockHash"
-        ],
+        "required": ["blockHash"],
         "properties": {
           "blockHash": {
             "description": "Block header hash.",
@@ -3895,13 +3423,7 @@
       "description": "Proof of transaction in a block.",
       "schema": {
         "type": "object",
-        "required": [
-          "proof",
-          "stibhash",
-          "idx",
-          "treedepth",
-          "hashtype"
-        ],
+        "required": ["proof", "stibhash", "idx", "treedepth", "hashtype"],
         "properties": {
           "proof": {
             "description": "Proof of transaction membership.",
@@ -3923,25 +3445,18 @@
           },
           "hashtype": {
             "type": "string",
-            "enum": [
-              "sha512_256",
-              "sha256"
-            ],
+            "enum": ["sha512_256", "sha256"],
             "description": "The type of hash function used to create the proof, must be one of: \n* sha512_256 \n* sha256"
           }
         }
       }
     },
     "CatchpointStartResponse": {
-      "tags": [
-        "private"
-      ],
+      "tags": ["private"],
       "schema": {
         "description": "An catchpoint start response.",
         "type": "object",
-        "required": [
-          "catchup-message"
-        ],
+        "required": ["catchup-message"],
         "properties": {
           "catchup-message": {
             "description": "Catchup start response string",
@@ -3951,15 +3466,11 @@
       }
     },
     "CatchpointAbortResponse": {
-      "tags": [
-        "private"
-      ],
+      "tags": ["private"],
       "schema": {
         "description": "An catchpoint abort response.",
         "type": "object",
-        "required": [
-          "catchup-message"
-        ],
+        "required": ["catchup-message"],
         "properties": {
           "catchup-message": {
             "description": "Catchup abort response string",
@@ -4063,10 +3574,7 @@
       "schema": {
         "description": "PendingTransactions is an array of signed transactions exactly as they were submitted.",
         "type": "object",
-        "required": [
-          "top-transactions",
-          "total-transactions"
-        ],
+        "required": ["top-transactions", "total-transactions"],
         "properties": {
           "top-transactions": {
             "description": "An array of signed transaction objects.",
@@ -4102,9 +3610,7 @@
       "description": "Participation ID of the submission",
       "schema": {
         "type": "object",
-        "required": [
-          "partId"
-        ],
+        "required": ["partId"],
         "properties": {
           "partId": {
             "description": "encoding of the participation ID.",
@@ -4117,9 +3623,7 @@
       "description": "Transaction ID of the submission.",
       "schema": {
         "type": "object",
-        "required": [
-          "txId"
-        ],
+        "required": ["txId"],
         "properties": {
           "txId": {
             "description": "encoding of the transaction hash.",
@@ -4133,11 +3637,7 @@
       "schema": {
         "description": "Supply represents the current supply of MicroAlgos in the system",
         "type": "object",
-        "required": [
-          "online-money",
-          "current_round",
-          "total-money"
-        ],
+        "required": ["online-money", "current_round", "total-money"],
         "properties": {
           "current_round": {
             "description": "Round",
@@ -4159,14 +3659,7 @@
       "schema": {
         "description": "TransactionParams contains the parameters that help a client construct\na new transaction.",
         "type": "object",
-        "required": [
-          "consensus-version",
-          "fee",
-          "genesis-id",
-          "genesis-hash",
-          "last-round",
-          "min-fee"
-        ],
+        "required": ["consensus-version", "fee", "genesis-id", "genesis-hash", "last-round", "min-fee"],
         "properties": {
           "consensus-version": {
             "description": "ConsensusVersion indicates the consensus protocol version\nas of LastRound.",
@@ -4206,9 +3699,7 @@
       "description": "Box names of an application",
       "schema": {
         "type": "object",
-        "required": [
-          "boxes"
-        ],
+        "required": ["boxes"],
         "properties": {
           "boxes": {
             "type": "array",
@@ -4235,10 +3726,7 @@
       "description": "Teal compile Result",
       "schema": {
         "type": "object",
-        "required": [
-          "hash",
-          "result"
-        ],
+        "required": ["hash", "result"],
         "properties": {
           "hash": {
             "description": "base32 SHA512_256 of program bytes (Address style)",
@@ -4259,9 +3747,7 @@
       "description": "Teal disassembly Result",
       "schema": {
         "type": "object",
-        "required": [
-          "result"
-        ],
+        "required": ["result"],
         "properties": {
           "result": {
             "description": "disassembled Teal code",
@@ -4274,11 +3760,7 @@
       "description": "DryrunResponse contains per-txn debug information from a dryrun.",
       "schema": {
         "type": "object",
-        "required": [
-          "txns",
-          "protocol-version",
-          "error"
-        ],
+        "required": ["txns", "protocol-version", "error"],
         "properties": {
           "txns": {
             "type": "array",
