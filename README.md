@@ -11,3 +11,11 @@ Run the following command:
 ```
 
 This should generate oapi types under the `dist` folder.
+
+## Upgrading schema
+
+Run the following command in the root of the repository:
+
+```sh
+> ./scripts/update-schemas.sh
+```

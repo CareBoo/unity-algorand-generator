@@ -7,9 +7,9 @@
             [clojure.string :as str]))
 
 (def oapi-urls
-  {:algod "https://raw.githubusercontent.com/algorand/go-algorand/rel/stable/daemon/algod/api/algod.oas2.json"
-   :indexer "https://raw.githubusercontent.com/algorand/indexer/master/api/indexer.oas2.json"
-   :kmd "https://raw.githubusercontent.com/algorand/go-algorand/rel/stable/daemon/kmd/api/swagger.json"})
+  {:algod "resources/algod/algod.oas2.json"
+   :indexer "resources/indexer/indexer.oas2.json"
+   :kmd "resources/kmd/swagger.json"})
 
 
 (defn read-json
