@@ -62,7 +62,7 @@ namespace Algorand.Unity
         {{/parameters}})
         {
             {{#query}}
-            using var queryBuilder = new QueryBuilder(Allocator.Persistent)
+            using var queryBuilder = new QueryBuilder(Allocator.Temp)
             {{#params}}
                 .Add("{{name}}", {{field-name}})
             {{/params}}
