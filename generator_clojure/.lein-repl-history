@@ -1,0 +1,111 @@
+(help slurp)
+(docs slurp
+)
+(doc slurp)
+(slurp https://raw.githubusercontent.com/algorand/go-algorand/master/daemon/algod/api/algod.oas3.yml)
+(slurp "https://raw.githubusercontent.com/algorand/go-algorand/master/daemon/algod/api/algod.oas3.yml")
+(def oapi (slurp "https://raw.githubusercontent.com/algorand/go-algorand/master/daemon/algod/api/algod.oas3.yml"))
+(exit)
+(doc json/decode)
+(doc json/encode)
+(def oapi (slurp "https://raw.githubusercontent.com/algorand/go-algorand/master/daemon/algod/api/algod.oas3.yml"))
+(def oapi (json/decode oapi))
+(require [cheshire.core :as json])
+(exit)
+(def oapi-raw (slurp "https://raw.githubusercontent.com/algorand/go-algorand/master/daemon/algod/api/algod.oas3.yml"))
+(def oapi (json/decode oapi-raw))
+oapi
+exit()
+(reload)
+(read-json (oapi-url "kmd"))
+(use 'algoapi-gen.core :reload-all)
+(read-json (oapi-url "kmd"))
+(read-json (oapi-url "algod"))
+(use 'algoapi-gen.core :reload-all)
+(read-json (oapi-url :algod))
+(let [responses (:responses (read-oapi :algod))] responses)
+(use 'algoapi-gen.core :reload-all)
+(let [responses (:responses (read-oapi :algod))] responses)
+(doseq [[k v] (read-oapi :algod)] k)
+(doseq [[k v] (read-oapi :algod)] (prn k)]
+(doseq [[k v] (read-oapi :algod)] (prn k))
+(def algod (read-oapi :algod))
+(let [responses (:responses algod)] (prn responses))
+algod
+(let [resources (:resources algod)] (prn resources))
+(prn (:resources algod))
+(prn (:responses algod))
+(let [{responses :responses} algod] (prn responses))
+(:responses algod)
+algod
+("responses" algod)
+(prn ("responses" algod))
+exit
+(def algod (read-oapi :algod))
+(:resources algod)
+algod
+("resources" algod)
+(use 'algoapi-gen.core :reload-all)
+("resources" algod)
+(def algod (read-oapi :algod))\
+(def algod (read-oapi :algod))
+("resources" algod)
+(:resources algod)
+(read-oapi :algod)
+(def algod (read-oapi :algod))
+algod
+(:resources algod)
+(:responses algod)
+(read-json "http://localhost:4001/v2/swagger.json
+)
+")
+(read-json "http://localhost:4001/v2/swagger.json")
+(doseq [[k v] algod] (prn k))
+(doseq [[k v] (:paths algod)] (prn k))
+exit
+(use 'algoapi-gen.types)
+(doc map)
+(use 'algoapi-gen.types)
+(use 'algoapi-gen.types :reload-all)
+algod
+(def algod (read-oapi :algod))
+algod
+(list-types algod)
+(:components algod)
+(def algod (read-json "https://raw.githubusercontent.com/algorand/go-algorand/master/daemon/algod/api/algod.oas3.yml"))
+algod
+(list-types algod)
+(:components algod)
+(:schemas (:components algod))
+let [{{schemas :schemas} :components} algod] schemas
+(let [{{schemas :schemas} :components} algod] schemas)
+(def schemas (let [{{schemas :schemas} :components} algod] schemas))
+(doseq [[k v] schemas] (prn k))
+exit
+(require '[clojure.string :as str] :reload-all)
+(str/replace "/v2/accounts/{address}/assets/{asset-id}"
+#"\{([\w-]+)\}"
+#(types/camel-case (%1 1))
+)
+(defn get-method-path
+  [path]
+  (str/replace
+   path
+   #"\{([\w-]+)\}"
+   #(str "{" (types/camel-case (%1 1)) "}")))
+(get-method-path "/v2/accounts/{address}/assets/{asset-id}")
+(exit)
+(contains? #{:get :post :put :delete} :get)
+exit
+(group-by :name {})
+(group-by :name [])
+(group-by :name [{} {}])
+exit
+(sort [false true true false])
+exit
+(->> {:a [1, 2], :b [3, 4]}
+(filter (fn [[k v]] (println k) (= k :b)))
+)
+(filter (fn [[k v]] (= k :b)) {:a {:1 2} :b {:3 4}})
+(filter (fn [[k _]] (= k :b)) {:a {:1 2} :b {:3 4}})
+exit()
