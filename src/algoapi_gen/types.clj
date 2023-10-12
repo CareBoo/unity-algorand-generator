@@ -59,6 +59,9 @@
     x-go-name (case x-go-name
                 "AccountID" "Address"
                 "TxID" "TransactionId")
+    format (case format
+             ("byte" "binary") "byte[]"
+             "json" "AlgoApiObject")
     x-algorand-format (case x-algorand-format
                         "RFC3339 String" "DateTime"
                         "Catchpoint String" "string"
@@ -66,9 +69,6 @@
                         "Address" "Address"
                         "TEALProgram" "CompiledTeal"
                         "SignedTransaction" "byte[]")
-    format (case format
-             ("byte" "binary") "byte[]"
-             "json" "AlgoApiObject")
     :else "string"))
 
 (defn get-object-type
